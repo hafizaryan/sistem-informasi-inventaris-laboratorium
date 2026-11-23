@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 110" role="img" aria-label="Kop surat DEMO">
+  <rect width="900" height="110" fill="#ffffff"/>
+  <rect x="10" y="15" width="80" height="80" rx="14" fill="#2a3f54"/>
+  <text x="50" y="62" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#fff">DEMO</text>
+  <text x="500" y="45" font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#222">INSTITUSI CONTOH (DEMO)</text>
+  <text x="500" y="72" font-family="Arial, sans-serif" font-size="15" text-anchor="middle" fill="#222">Laboratorium Contoh - Data fiktif untuk demonstrasi</text>
+  <line x1="10" y1="100" x2="890" y2="100" stroke="#222" stroke-width="3"/>
+</svg>

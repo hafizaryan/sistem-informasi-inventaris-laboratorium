@@ -1,0 +1,55 @@
+# Environment dan rahasia
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependensi
+/vendor/
+node_modules/
+
+# Runtime writable (jaga hanya penanda direktori)
+/writable/cache/*
+!/writable/cache/index.html
+/writable/logs/*
+!/writable/logs/index.html
+!/writable/logs/.gitkeep
+/writable/session/*
+!/writable/session/index.html
+!/writable/session/.gitkeep
+/writable/debugbar/*
+!/writable/debugbar/index.html
+!/writable/debugbar/.gitkeep
+/writable/uploads/*
+!/writable/uploads/index.html
+!/writable/uploads/.gitkeep
+
+# Unggahan dan cache QR (hanya berkas contoh "demo-*" yang dilacak)
+/public/uploads/*
+!/public/uploads/.gitkeep
+!/public/uploads/demo-*
+!/public/uploads/*/
+/public/uploads/*/*
+!/public/uploads/*/.gitkeep
+!/public/uploads/*/demo-*
+/public/qr_cache/*
+!/public/qr_cache/.gitkeep
+
+# Dump database dan dokumen basis data asli (pakai db/schema.sql dan db/demo.sql)
+/db/*
+!/db/schema.sql
+!/db/demo.sql
+
+# Log, cadangan, editor, OS
+*.log
+*.bak
+*.sql.gz
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Pengujian
+/build/
+.phpunit.result.cache
