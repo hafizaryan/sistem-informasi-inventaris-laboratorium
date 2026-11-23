@@ -35,32 +35,64 @@ Pengembang: Hafiz Aryan Siregar, Indah Nirwana, dan Nasya Amirah Melyani.
 
 ## Menjalankan Secara Lokal (mode demo)
 
-1. Instal dependensi:
+### Prasyarat
+
+- PHP 7.4 atau 8.x dengan ekstensi `intl`, `mbstring`, `json`, `curl`, `mysqli`
+- [Composer](https://getcomposer.org/)
+- MySQL atau MariaDB yang sudah berjalan
+- Git
+
+Di Windows, paket seperti [Laragon](https://laragon.org/) atau XAMPP sudah menyertakan PHP dan MySQL. Jika perintah `php` atau `composer` tidak dikenali, jalankan perintah di bawah dari terminal bawaan Laragon, atau tambahkan folder PHP dan Composer ke `PATH`.
+
+### Langkah
+
+1. Clone repositori, lalu masuk ke foldernya:
+   ```bash
+   git clone <url-repositori>
+   cd sistem-informasi-inventaris-laboratorium
+   ```
+2. Instal dependensi:
    ```bash
    composer install
    ```
-2. Buat database kosong dengan charset `utf8mb4`, misalnya `sitaris`.
-3. Impor skema, lalu data contoh:
+3. Buat database kosong dengan charset `utf8mb4`, misalnya `sitaris`:
+   ```bash
+   mysql -u <user> -p -e "CREATE DATABASE sitaris CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+   ```
+4. Impor skema, lalu data contoh:
    ```bash
    mysql -u <user> -p sitaris < db/schema.sql
    mysql -u <user> -p sitaris < db/demo.sql
    ```
-4. Salin `.env.example` menjadi `.env`, lalu isi:
+   Di PowerShell, operator `<` tidak didukung. Pakai Command Prompt (`cmd`), atau impor lewat HeidiSQL/phpMyAdmin.
+5. Salin `.env.example` menjadi `.env` (`cp .env.example .env`, atau `copy .env.example .env` di Windows), lalu isi:
    - `CI_ENVIRONMENT = development`
-   - `database.default.*` sesuai database lokal Anda
+   - `database.default.*` sesuai database lokal Anda (nama database, username, password)
    - `sitaris.demoMode = true`
    - `sitaris.demoPassword` dengan kata sandi pilihan Anda sendiri (tidak boleh kosong)
-5. Buat kata sandi akun demo:
+6. Buat kata sandi akun demo:
    ```bash
    php spark db:seed DemoUserSeeder
    ```
-6. Jalankan server pengembangan:
+7. Jalankan server pengembangan:
    ```bash
    php spark serve
    ```
-7. Buka `http://localhost:8080` dan masuk dengan salah satu akun demo, memakai kata sandi dari langkah 4.
+8. Buka `http://localhost:8080` dan masuk dengan salah satu akun demo. Kata sandinya adalah nilai `sitaris.demoPassword` dari langkah 5.
 
-Akun demo (peran): `demokalab` (Kalab), `demoadmin` (Admin), `demokaprodi` (Kaprodi), `demosekprodi` (Sekprodi), `demopeminjam` (Peminjam), `demoaslab` (Aslab).
+Akun demo (peran): `demokalab` (Kalab), `demoadmin` (Admin), `demokaprodi` (Kaprodi), `demosekprodi` (Sekprodi), `demopeminjam` (Peminjam), `demoaslab` (Aslab). Semua akun memakai kata sandi yang sama. Jika Anda mengubah `sitaris.demoPassword`, jalankan ulang seeder pada langkah 6.
+
+### Masalah Umum
+
+| Gejala | Penyebab dan solusi |
+| --- | --- |
+| `Class "CodeIgniter\Session\Handlers\FileHandler" not found` | Folder `system/Session/` tidak ada. Pastikan folder itu ikut ter-clone. Jika tidak ada, salin dari CodeIgniter 4.3.2 (`composer create-project codeigniter4/framework <folder> 4.3.2`, lalu ambil `system/Session`). |
+| `Class ... not found` untuk kelas di `vendor/` | `composer install` belum dijalankan atau gagal. Jalankan ulang. |
+| `Unable to connect to the database` | MySQL belum menyala, atau `database.default.*` di `.env` tidak sesuai. |
+| `DemoUserSeeder` menolak berjalan | Pastikan `CI_ENVIRONMENT = development`, `sitaris.demoMode = true`, dan `sitaris.demoPassword` tidak kosong. |
+| Login gagal untuk akun demo | Seeder belum dijalankan, atau `demoPassword` diubah setelah seeder. Jalankan ulang `php spark db:seed DemoUserSeeder`. |
+| Halaman error karena folder tidak bisa ditulis | Pastikan `writable/` dapat ditulis oleh PHP. |
+| Port 8080 sudah dipakai | `php spark serve --port 8081`, lalu sesuaikan `app.baseURL` di `.env`. |
 
 ### Perilaku mode demo
 
